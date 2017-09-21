@@ -4,7 +4,7 @@ $ciudad=$_GET['city'];
 $tipo=$_GET['type'];
 $min=$_GET['min'];
 $max=$_GET['max'];
-// Camino original --- $path ='storage/data-1.json';
+//$path ='storage/data-1.json';
 $path ='../data-1.json';
 switch ($oper) {
   case 'ofertas':

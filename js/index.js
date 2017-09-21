@@ -1,12 +1,3 @@
-/*json
-'Id': 2,
-'Direccion': 'P.O. Box 657, 9831 Cursus St.',
-'Ciudad': 'Orlando',
-'Telefono': '488-441-5521',
-'Codigo_Postal': '04436',
-'Tipo': 'Casa de Campo',
-'Precio': '$71,045'
-*/
 $(document).ready(function() {
     $('select').material_select(); 
 });
