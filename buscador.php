@@ -43,6 +43,8 @@ $cities=[];
 foreach ($inmuebles as $key => $json) {
   $cities[]=$json->Ciudad;
 }
+    
+//Elimino los duplicados    
 $cities=array_unique($cities);
 $ciudadesOpt="<option value=\"All\" selected>Elige una ciudad</option>";
 foreach ($cities as $key => $city) {
