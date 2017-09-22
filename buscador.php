@@ -1,9 +1,9 @@
 <?php
-$oper=$_GET['oper'];
-$ciudad=$_GET['city'];
-$tipo=$_GET['type'];
-$min=$_GET['min'];
-$max=$_GET['max'];
+$oper=$_POST['oper'];
+$ciudad=$_POST['city'];
+$tipo=$_POST['type'];
+$min=$_POST['min'];
+$max=$_POST['max'];
 //$path ='storage/data-1.json';
 $path ='../data-1.json';
 switch ($oper) {

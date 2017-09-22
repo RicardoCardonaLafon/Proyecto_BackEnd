@@ -1,5 +1,7 @@
 <?php
-    $json_url = "/data-1.json";
+    var URLdomain   = window.location.host;
+    var URLprotocol = window.location.protocol;
+    $json_url = "data-1.json";
     $json = file_get_contents($json_url);
     $data = json_decode($json, TRUE);
 
