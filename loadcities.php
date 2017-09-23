@@ -10,8 +10,6 @@
         if (!in_array($city["Ciudad"], $cities)) {
         $cities[]= $city["Ciudad"];
         }
-
-        //$cities[]= $city["Ciudad"];
     }
     sort($cities);
 

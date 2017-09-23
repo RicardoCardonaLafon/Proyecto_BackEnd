@@ -84,10 +84,6 @@ function Busqueda_Personalizada() {
 
 function Mostrar_Todo() {
 
-    /*var search = $("#serachResult");
-
-    search.html("");*/
-
     $.ajax(
         {
         url:'buscador.php',

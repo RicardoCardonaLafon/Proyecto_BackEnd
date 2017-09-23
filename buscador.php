@@ -37,18 +37,10 @@ function GetAllOfferts(){
     $resultado = array();
 
     foreach ($data as $dto) {
-        $importe = (int)$dto["Precio"];
-        $resultado[]= "Ciudad" ; 
-        $resultado[]= $dto["Ciudad"];  
-        $resultado[]= "Direccion";
-        $resultado[]= $dto["Direccion"]; 
-        $resultado[]= "Telefono";
-        $resultado[]= $dto["Telefono"]; 
-        $resultado[]= "Tipo";
-        $resultado[]= $dto["Tipo"];
-        $resultado[]= "Precio";
-        $resultado[]= $dto["Precio"];
-        /*if (((int)$min >= $importe) && ((int)$max <= $importe)) {
+        $importe = ( int ) intval(preg_replace('/[^0-9]+/', '', $dto["Precio"]), 10); 
+        $min = ( int ) intval(preg_replace('/[^0-9]+/', '', $min), 10); 
+        $max = ( int ) intval(preg_replace('/[^0-9]+/', '', $max), 10);    
+        if (($importe >= $min) && ($importe <= $max)) {
             $resultado[]= "Ciudad" ; 
             $resultado[]= $dto["Ciudad"];  
             $resultado[]= "Direccion";
@@ -57,10 +49,10 @@ function GetAllOfferts(){
             $resultado[]= $dto["Telefono"]; 
             $resultado[]= "Tipo";
             $resultado[]= $dto["Tipo"];
-            $resultado[]= "Tipo";
-            $resultado[]= $dto["Precio"];
             $resultado[]= "Precio";
-            } */
+            $resultado[]= $dto["Precio"];
+  
+        } 
     }
     //sort($types);
     echo json_encode($resultado);
@@ -83,7 +75,53 @@ foreach ($cities as $key => $city) {
 return $ciudadesOpt;
 } */
 
+function GetCustom(){
+    $min=$_GET['minValue'];
+    $max=$_GET['maxValue'];
+    $ciudad=$_GET['city'];
+    $tipo=$_GET['type'];
+    $json_url = "data-1.json";
+    $json = file_get_contents($json_url);
+    $data = json_decode($json, TRUE);
 
+    $resultado = array();
+
+    foreach ($data as $dto) {
+        $importe = ( int ) intval(preg_replace('/[^0-9]+/', '', $dto["Precio"]), 10); 
+        $min = ( int ) intval(preg_replace('/[^0-9]+/', '', $min), 10); 
+        $max = ( int ) intval(preg_replace('/[^0-9]+/', '', $max), 10);    
+        if (($importe >= $min) && ($importe <= $max)) {
+            if (($ciudad == "Todas") && ($tipo == "Todos"))  {
+                $resultado[]= "Ciudad" ; 
+                $resultado[]= $dto["Ciudad"];  
+                $resultado[]= "Direccion";
+                $resultado[]= $dto["Direccion"]; 
+                $resultado[]= "Telefono";
+                $resultado[]= $dto["Telefono"]; 
+                $resultado[]= "Tipo";
+                $resultado[]= $dto["Tipo"];
+                $resultado[]= "Precio";
+                $resultado[]= $dto["Precio"];
+            } else {
+                if (($ciudad != "Todas") && ($tipo != "Todos"))  {
+                    
+                } else {
+                    if (($ciudad != "Todas") && ($tipo == "Todos"))  {
+                        
+                    } else {
+                        if (($ciudad == "Todas") && ($tipo != "Todos"))  {
+                            
+                        }
+                    }
+                }
+            }
+                
+        } 
+    }
+    //sort($types);
+    echo json_encode($resultado);
+}
+}
 
 /*function GetCustom(){
   $seleccionados=[];
