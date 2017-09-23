@@ -55,17 +55,17 @@ $.ajax(
 
 }
 
-function search(all) {
+function Busqueda_Personalizada() {
 
-    var search = $("#serachResult");
+    /*var search = $("#serachResult");
 
-    search.html("");
+    search.html("");*/
 
     $.ajax(
         {
-        url:'search.php',
+        url:'buscador.php',
         type:'GET',
-        data:{ showAll:all,
+        data:{oper:'Personalizada',
         city:$("#selectCiudad option:selected").text(),
         type:$("#selectTipo option:selected").text(),
         minValue:$("#rangoPrecio").data("from"),
@@ -73,7 +73,7 @@ function search(all) {
         },
 
         success: function (data) {
-        search.html(data);
+            search.html(data);
         }
 
         }
@@ -82,6 +82,51 @@ function search(all) {
 
     }
 
+function Mostrar_Todo() {
+
+    /*var search = $("#serachResult");
+
+    search.html("");*/
+
+    $.ajax(
+        {
+        url:'buscador.php',
+        type:'GET',
+        data:{oper:'Todo',
+        city:$("#selectCiudad option:selected").text(),
+        type:$("#selectTipo option:selected").text(),      
+        minValue:$("#rangoPrecio").data("from"),
+        maxValue:$("#rangoPrecio").data("to")
+        },
+
+        success: function (data) {
+            var _Registro = "";
+            j=0;
+            jQuery.each(JSON.parse(data), function (i,val) {
+                if (j <= 9){
+                    if (j%2 == 0) {
+                        _Registro = _Registro + "<p>" + val + ": ";
+                    } else {
+                        _Registro = _Registro + val + "</p>";
+                    }    
+                    j=j+1;    
+                } else {
+                    _Registro= '<div>' + _Registro + "</div><div class='divider''></div>";
+                    $(".img").append("<img src='img/home.jpg' style='height: 1%;margin-right:10px'>");
+                    $(".itemMostrado").append(_Registro);
+                    _Registro = "<p>" + val + ": ";
+                    j = 1;
+                    
+                }
+                
+            }); 
+            
+        }
+
+        }
+    );
+}
+
 $(document).ready(function() {
 
     loadSelects();
@@ -89,11 +134,15 @@ $(document).ready(function() {
 
     $("#formulario").on("submit",function (e) {
         e.preventDefault();
-        search(false);
+        //search(false);
     });
 
     $("#mostrarTodos").click(function () {
-        search(true);
+        Mostrar_Todo();
+    });
+    
+    $("#submitButton").click(function () {
+        Busqueda_Personalizada();
     });
 
 });

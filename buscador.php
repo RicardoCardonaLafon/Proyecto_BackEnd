@@ -1,41 +1,71 @@
 <?php
-$oper=$_POST['oper'];
-$ciudad=$_POST['city'];
-$tipo=$_POST['type'];
-$min=$_POST['min'];
-$max=$_POST['max'];
+$oper=$_GET['oper'];
+global $ciudad, $tipo, $tipo, $min, $max;
+$ciudad=$_GET['city'];
+$tipo=$_GET['type'];
+$min=$_GET['minValue'];
+$max=$_GET['maxValue'];
 //$path ='storage/data-1.json';
-$path ='../data-1.json';
+$path ='data-1.json';
 switch ($oper) {
-  case 'ofertas':
-  # code...
-  echo GetAllOfferts();
-  break;
-  case 'ciudades':
-  echo GetAllCities();
-  break;
+  case 'Todo':
+    echo GetAllOfferts();
+    break;
+ /* case 'ciudades':
+    echo GetAllCities();
+    break;
   case 'tipos':
-  # code...
-  echo GetAllTypes();
-  break;
-  case 'personalizada':
-  # code...
-  echo json_encode(GetCustom());
-  break;
+    echo GetAllTypes();
+    break;*/
+  case 'Personalizada':
+    echo json_encode(GetCustom());
+    break;
 
   default:
-  # code...
-  echo 'no se encontro la operacion'.$ciudad."-".$tipo."-".$min."-".$max;
-  break;
+    echo 'no se encontro la operacion'.$ciudad."-".$tipo."-".$min."-".$max;
+    break;
 }
 //Funciones necesarias para trabajar con el fichero Json
+//Obtengo todas las ofertas entre dos precios
 function GetAllOfferts(){
-//$fichero=fopen($GLOBALS['path'],'r');
-//$lectStr=fread($fichero,filesize($GLOBALS['path']));
-$data = file_get_contents($GLOBALS['path']);
-return $data;
-}
+    $min=$_GET['minValue'];
+    $max=$_GET['maxValue'];
+    $json_url = "data-1.json";
+    $json = file_get_contents($json_url);
+    $data = json_decode($json, TRUE);
 
+    $resultado = array();
+
+    foreach ($data as $dto) {
+        $importe = (int)$dto["Precio"];
+        $resultado[]= "Ciudad" ; 
+        $resultado[]= $dto["Ciudad"];  
+        $resultado[]= "Direccion";
+        $resultado[]= $dto["Direccion"]; 
+        $resultado[]= "Telefono";
+        $resultado[]= $dto["Telefono"]; 
+        $resultado[]= "Tipo";
+        $resultado[]= $dto["Tipo"];
+        $resultado[]= "Precio";
+        $resultado[]= $dto["Precio"];
+        /*if (((int)$min >= $importe) && ((int)$max <= $importe)) {
+            $resultado[]= "Ciudad" ; 
+            $resultado[]= $dto["Ciudad"];  
+            $resultado[]= "Direccion";
+            $resultado[]= $dto["Direccion"]; 
+            $resultado[]= "Telefono";
+            $resultado[]= $dto["Telefono"]; 
+            $resultado[]= "Tipo";
+            $resultado[]= $dto["Tipo"];
+            $resultado[]= "Tipo";
+            $resultado[]= $dto["Precio"];
+            $resultado[]= "Precio";
+            } */
+    }
+    //sort($types);
+    echo json_encode($resultado);
+}
+/*
 function GetAllCities(){
 $data = file_get_contents($GLOBALS['path']);
 $inmuebles = json_decode($data);
@@ -51,11 +81,11 @@ foreach ($cities as $key => $city) {
   $ciudadesOpt.="<option  value=\"$city\">$city</option>";
 }
 return $ciudadesOpt;
-}
+} */
 
 
 
-function GetCustom(){
+/*function GetCustom(){
   $seleccionados=[];
 $data = file_get_contents($GLOBALS['path']);
 $inmuebles = json_decode($data);
@@ -78,21 +108,8 @@ $precioImueble=(float)str_replace(',', '', $precioImueble);
 }
 
 return $seleccionados;
-}
+} */
 
-function GetAllTypes(){
-$data = file_get_contents($GLOBALS['path']);
-$inmuebles = json_decode($data);
-$types=[];
-foreach ($inmuebles as $key => $json) {
-  $types[]=$json->Tipo;
-}
-$types=array_unique($types);
-$typesOpt="<option value=\"All\" selected>Elige un tipo</option>";
-foreach ($types as $key => $type) {
-  $typesOpt.="<option  value=\"$type\">$type</option>";
-}
-return $typesOpt;
-}
+
 
 ?>
