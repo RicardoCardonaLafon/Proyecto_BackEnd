@@ -22,7 +22,7 @@ $.ajax(
             var SeelctCiudades = $("#selectCiudad");
             SeelctCiudades.html("");
             SeelctCiudades.append( "<option value='' disabled>Elige una ciudad</option>");
-            SeelctCiudades.append( "<option value='' selected >Todas</option>");
+            SeelctCiudades.append( "<option value='1' selected >Todas</option>");
             jQuery.each(JSON.parse(data), function (i,val) {
                 SeelctCiudades.append("<option value=''>"+ val +"</option>")
             });
@@ -57,9 +57,6 @@ $.ajax(
 
 function Busqueda_Personalizada() {
 
-    /*var search = $("#serachResult");
-
-    search.html("");*/
 
     $.ajax(
         {
@@ -67,13 +64,33 @@ function Busqueda_Personalizada() {
         type:'GET',
         data:{oper:'Personalizada',
         city:$("#selectCiudad option:selected").text(),
-        type:$("#selectTipo option:selected").text(),
+        type:$("#selectTipo option:selected").text(),      
         minValue:$("#rangoPrecio").data("from"),
         maxValue:$("#rangoPrecio").data("to")
         },
 
         success: function (data) {
-            search.html(data);
+            var _Registro = "";
+            $(".itemMostrado").html("");
+            j=0;
+            jQuery.each(JSON.parse(data), function (i,val) {
+                if (j <= 9){
+                    if (j%2 == 0) {
+                        _Registro = _Registro + "<p>" + val + ": ";
+                    } else {
+                        _Registro = _Registro + val + "</p>";
+                    }    
+                    j=j+1;    
+                } else {
+                    _Registro= '<div>' + _Registro + "</div><div class='divider''></div>";
+                    $(".img").append("<img src='img/home.jpg' style='height: 200px;margin-right:10px'>");
+                    $(".itemMostrado").append(_Registro);
+                    _Registro = "<p>" + val + ": ";
+                    j = 1;
+                    
+                }
+                
+            }); 
         }
 
         }
@@ -98,6 +115,7 @@ function Mostrar_Todo() {
         success: function (data) {
             var _Registro = "";
             j=0;
+            $(".itemMostrado").html("");
             jQuery.each(JSON.parse(data), function (i,val) {
                 if (j <= 9){
                     if (j%2 == 0) {
@@ -108,7 +126,7 @@ function Mostrar_Todo() {
                     j=j+1;    
                 } else {
                     _Registro= '<div>' + _Registro + "</div><div class='divider''></div>";
-                    $(".img").append("<img src='img/home.jpg' style='height: 1%;margin-right:10px'>");
+                    $(".img").append("<img src='img/home.jpg' style='height: 200px;margin-right:10px'>");
                     $(".itemMostrado").append(_Registro);
                     _Registro = "<p>" + val + ": ";
                     j = 1;

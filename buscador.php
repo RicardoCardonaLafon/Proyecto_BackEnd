@@ -11,14 +11,8 @@ switch ($oper) {
   case 'Todo':
     echo GetAllOfferts();
     break;
- /* case 'ciudades':
-    echo GetAllCities();
-    break;
-  case 'tipos':
-    echo GetAllTypes();
-    break;*/
   case 'Personalizada':
-    echo json_encode(GetCustom());
+    echo GetCustom();
     break;
 
   default:
@@ -54,26 +48,9 @@ function GetAllOfferts(){
   
         } 
     }
-    //sort($types);
     echo json_encode($resultado);
 }
-/*
-function GetAllCities(){
-$data = file_get_contents($GLOBALS['path']);
-$inmuebles = json_decode($data);
-$cities=[];
-foreach ($inmuebles as $key => $json) {
-  $cities[]=$json->Ciudad;
-}
-    
-//Elimino los duplicados    
-$cities=array_unique($cities);
-$ciudadesOpt="<option value=\"All\" selected>Elige una ciudad</option>";
-foreach ($cities as $key => $city) {
-  $ciudadesOpt.="<option  value=\"$city\">$city</option>";
-}
-return $ciudadesOpt;
-} */
+
 
 function GetCustom(){
     $min=$_GET['minValue'];
@@ -104,13 +81,46 @@ function GetCustom(){
                 $resultado[]= $dto["Precio"];
             } else {
                 if (($ciudad != "Todas") && ($tipo != "Todos"))  {
-                    
+                    if (($ciudad == $dto["Ciudad"]) && ($tipo == $dto["Tipo"]))  {
+                        $resultado[]= "Ciudad" ; 
+                        $resultado[]= $dto["Ciudad"];  
+                        $resultado[]= "Direccion";
+                        $resultado[]= $dto["Direccion"]; 
+                        $resultado[]= "Telefono";
+                        $resultado[]= $dto["Telefono"]; 
+                        $resultado[]= "Tipo";
+                        $resultado[]= $dto["Tipo"];
+                        $resultado[]= "Precio";
+                        $resultado[]= $dto["Precio"];
+                    }
                 } else {
                     if (($ciudad != "Todas") && ($tipo == "Todos"))  {
-                        
+                        if ($ciudad == $dto["Ciudad"])  {
+                            $resultado[]= "Ciudad" ; 
+                            $resultado[]= $dto["Ciudad"];  
+                            $resultado[]= "Direccion";
+                            $resultado[]= $dto["Direccion"]; 
+                            $resultado[]= "Telefono";
+                            $resultado[]= $dto["Telefono"]; 
+                            $resultado[]= "Tipo";
+                            $resultado[]= $dto["Tipo"];
+                            $resultado[]= "Precio";
+                            $resultado[]= $dto["Precio"];
+                        }
                     } else {
                         if (($ciudad == "Todas") && ($tipo != "Todos"))  {
-                            
+                            if ($tipo == $dto["Tipo"])  {
+                                $resultado[]= "Ciudad" ; 
+                                $resultado[]= $dto["Ciudad"];  
+                                $resultado[]= "Direccion";
+                                $resultado[]= $dto["Direccion"]; 
+                                $resultado[]= "Telefono";
+                                $resultado[]= $dto["Telefono"]; 
+                                $resultado[]= "Tipo";
+                                $resultado[]= $dto["Tipo"];
+                                $resultado[]= "Precio";
+                                $resultado[]= $dto["Precio"];
+                            }
                         }
                     }
                 }
@@ -118,36 +128,8 @@ function GetCustom(){
                 
         } 
     }
-    //sort($types);
+    
     echo json_encode($resultado);
 }
-}
-
-/*function GetCustom(){
-  $seleccionados=[];
-$data = file_get_contents($GLOBALS['path']);
-$inmuebles = json_decode($data);
-for ($i=0; $i < count($inmuebles) ; $i++) {
-$precioImueble=(substr($inmuebles[$i]->Precio,1));
-$precioImueble=(float)str_replace(',', '', $precioImueble);
-
-  if (($inmuebles[$i]->Ciudad!=$GLOBALS['ciudad'])&&($GLOBALS['ciudad']!="All")) {
-
-  }
-  elseif (($inmuebles[$i]->Tipo!=$GLOBALS['tipo'])&&($GLOBALS['tipo']!="All")) {
-
-  }
-  elseif (($precioImueble<(float)$GLOBALS['min'])||($precioImueble>(float)$GLOBALS['max'])) {
-
-  }
-  else {
-    array_push($seleccionados,$inmuebles[$i]);
-  }
-}
-
-return $seleccionados;
-} */
-
-
 
 ?>
